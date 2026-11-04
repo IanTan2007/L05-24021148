@@ -1,20 +1,60 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import { TextInput, Text, View, Button, Alert, TouchableOpacity, ToastAndroid } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 
-export default function App() {
+const App = () => {
+    const [name, setName] = useState('');
+    const [type, setType] = useState('Admin');
+    const [pw, setPw] = useState('');
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+      <View>
+          <Text></Text>
+          <Text>User Type:</Text>
+          <Picker
+              selectedValue={type}
+              onValueChange={(value) => setType(value)}
+              style={{
+                  backgroundColor: 'lightblue',
+                  borderRadius: 10,
+                  color: 'black'
+              }}
+          >
+              <Picker.Item label="Admin" value="Admin" />
+              <Picker.Item label="Guest" value="Guest" />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+          </Picker>
+
+
+          <Text></Text>
+          <Text>User Name:</Text>
+          <TextInput
+              style={{borderWidth: 1}}
+              onChangeText={(text) => setName(text)}
+          />
+          <Text>{name}</Text>
+
+          <Text>Password:</Text>
+          <TextInput
+              style={{borderWidth: 1}}
+              secureTextEntry={true}
+              onChangeText={(text) => setPw(text)}
+          />
+          <Text>{pw}</Text>
+
+          <TouchableOpacity onPress={() => {
+              const correctPassword = '123';
+              let mymessage = 'Error! Wrong Password!';
+
+              if (pw === correctPassword) {
+                  mymessage = 'Welcome ' + type + ' ' + name;
+              }
+
+              ToastAndroid.show(mymessage, ToastAndroid.SHORT);
+          }}>
+              <Text>LOG IN</Text>
+          </TouchableOpacity>
+      </View>
+  );
+};
+
+export default App;
